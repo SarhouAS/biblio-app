@@ -1,26 +1,31 @@
 import { useState } from "react";
-import type { Book } from "./types/Books";
+import type { Book, BooksDictionary } from "./types/Books";
+import { generateId } from "./utils/bookUtils";
 import { BookList } from "./components/BookList";
 import { BookForm } from "./components/BookForm";
 import "./App.css";
 
-const initialBooks: Book[] = [
-  { id: "b1", title: "L'Étranger", author: "Albert Camus", available: true },
-  { id: "b2", title: "1984", author: "George Orwell", available: false },
-];
+const initialBooks: BooksDictionary = {
+  b1: { id: "b1", title: "L'Étranger", author: "Albert Camus", available: true },
+  b2: { id: "b2", title: "1984", author: "George Orwell", available: false },
+};
 
 export default function App() {
-  const [books, setBooks] = useState<Book[]>(initialBooks);
+
+  const [books, setBooks] = useState<BooksDictionary>(initialBooks);
 
   function handleAddBook(data: { title: string; author: string }) {
+    const id = generateId();
     const newBook: Book = {
-      id: Date.now().toString(),
+      id,
       title: data.title,
       author: data.author,
       available: true,
     };
-    setBooks((prev) => [...prev, newBook]);
+    setBooks((prev) => ({ ...prev, [id]: newBook }));
   }
+
+  const bookArray = Object.values(books);
 
   return (
     <div className="app">
@@ -28,7 +33,7 @@ export default function App() {
 
       <BookForm onAdd={handleAddBook} />
 
-      <BookList books={books} />
+      <BookList books={bookArray} />
     </div>
   );
 }
