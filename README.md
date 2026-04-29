@@ -1,73 +1,49 @@
-# React + TypeScript + Vite
+# 📚 Biblio App — TP TypeScript & React (M2)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Mini-application de gestion de bibliothèque construite avec **Vite + React + TypeScript**.
 
-Currently, two official plugins are available:
+## 🚀 Lancer le projet
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── types/
+│   └── Book.ts              # Interface Book + BooksDictionary + BookStatus
+├── utils/
+│   └── bookUtils.ts         # Fonctions utilitaires (filtres, toggle, id)
+├── components/
+│   ├── BookItem.tsx         # Affiche un livre
+│   ├── BookList.tsx         # Affiche une liste de livres
+│   ├── BookForm.tsx         # Formulaire d'ajout
+│   └── GenericList.tsx      # Composant générique réutilisable (bonus)
+├── App.tsx                  # Composant principal
+└── App.css                  # Styles
+```
+
+## ✅ Correspondance exercices
+
+| Partie | Exercice | Fichier(s) principal(aux) |
+|--------|----------|---------------------------|
+| 1 | Ex 1 — Interface `Book` + dictionnaire | `types/Book.ts` |
+| 1 | Ex 2 — `available` + filtre disponibilité | `types/Book.ts`, `utils/bookUtils.ts` |
+| 2 | Ex 3 — Composant `BookItem` | `components/BookItem.tsx` |
+| 2 | Ex 4 — Composant `BookList` | `components/BookList.tsx` |
+| 3 | Ex 5 — `useState` + ajout | `App.tsx` |
+| 3 | Ex 6 — Formulaire | `components/BookForm.tsx` |
+| 4 | Ex 7 — Dictionnaire `Record<string, Book>` | `App.tsx`, `utils/bookUtils.ts` |
+| 4 | Ex 8 — Filtre + sélection + statut | `App.tsx`, `bookUtils.ts`, `BookItem.tsx` |
+| Bonus | Composant générique | `components/GenericList.tsx` |
+
+## 🛡️ Qualité du code
+
+- **Mode `strict` TypeScript activé**
+- **Aucune utilisation de `any`**
+- Types union (`BookStatus`) pour empêcher les valeurs invalides
+- Immutabilité respectée (jamais de mutation directe du state)
+- Composants découpés et props typées
