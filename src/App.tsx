@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Book } from "./types/Books";
 import { BookList } from "./components/BookList";
+import { BookForm } from "./components/BookForm";
 import "./App.css";
 
 const initialBooks: Book[] = [
@@ -9,14 +10,13 @@ const initialBooks: Book[] = [
 ];
 
 export default function App() {
-
   const [books, setBooks] = useState<Book[]>(initialBooks);
 
-  function handleAddBook() {
+  function handleAddBook(data: { title: string; author: string }) {
     const newBook: Book = {
       id: Date.now().toString(),
-      title: "Nouveau livre",
-      author: "Auteur inconnu",
+      title: data.title,
+      author: data.author,
       available: true,
     };
     setBooks((prev) => [...prev, newBook]);
@@ -26,7 +26,7 @@ export default function App() {
     <div className="app">
       <h1>📚 Ma Bibliothèque</h1>
 
-      <button onClick={handleAddBook}>Ajouter un livre</button>
+      <BookForm onAdd={handleAddBook} />
 
       <BookList books={books} />
     </div>
