@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Book, BooksDictionary } from "./types/Books";
-import { generateId } from "./utils/bookUtils";
+import { generateId, filterBooksByTitle } from "./utils/bookUtils";
 import { BookList } from "./components/BookList";
 import { BookForm } from "./components/BookForm";
 import "./App.css";
@@ -11,8 +11,9 @@ const initialBooks: BooksDictionary = {
 };
 
 export default function App() {
-
   const [books, setBooks] = useState<BooksDictionary>(initialBooks);
+
+  const [search, setSearch] = useState<string>("");
 
   function handleAddBook(data: { title: string; author: string }) {
     const id = generateId();
@@ -25,7 +26,7 @@ export default function App() {
     setBooks((prev) => ({ ...prev, [id]: newBook }));
   }
 
-  const bookArray = Object.values(books);
+  const filteredBooks = filterBooksByTitle(books, search);
 
   return (
     <div className="app">
@@ -33,7 +34,14 @@ export default function App() {
 
       <BookForm onAdd={handleAddBook} />
 
-      <BookList books={bookArray} />
+      <input
+        type="text"
+        placeholder="Filtrer par titre..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <BookList books={filteredBooks} />
     </div>
   );
 }
