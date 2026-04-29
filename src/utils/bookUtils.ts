@@ -1,4 +1,4 @@
-import type { Book, BooksDictionary } from "../types/Books";
+import type { Book, BooksDictionary } from "../types/Book";
 
 export function getAvailableBooks(books: BooksDictionary): Book[] {
   return Object.values(books).filter((book) => book.available);
@@ -21,4 +21,24 @@ export function filterBooksByTitle(
   return Object.values(books).filter((book) =>
     book.title.toLowerCase().includes(trimmed)
   );
+}
+
+export function toggleBookStatus(
+  books: BooksDictionary,
+  id: string
+): BooksDictionary {
+  const current = books[id];
+  if (!current) return books;
+
+  const newStatus: Book["status"] =
+    current.status === "disponible" ? "emprunté" : "disponible";
+
+  return {
+    ...books,
+    [id]: {
+      ...current,
+      status: newStatus,
+      available: newStatus === "disponible",
+    },
+  };
 }
