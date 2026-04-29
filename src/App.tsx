@@ -12,8 +12,9 @@ const initialBooks: BooksDictionary = {
 
 export default function App() {
   const [books, setBooks] = useState<BooksDictionary>(initialBooks);
-
   const [search, setSearch] = useState<string>("");
+
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   function handleAddBook(data: { title: string; author: string }) {
     const id = generateId();
@@ -26,7 +27,15 @@ export default function App() {
     setBooks((prev) => ({ ...prev, [id]: newBook }));
   }
 
+  function handleSelect(id: string) {
+    setSelectedId((prev) => (prev === id ? null : id));
+  }
+
   const filteredBooks = filterBooksByTitle(books, search);
+
+  const selectedBook: Book | null = selectedId
+    ? books[selectedId] ?? null
+    : null;
 
   return (
     <div className="app">
@@ -41,7 +50,17 @@ export default function App() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <BookList books={filteredBooks} />
+      {selectedBook && (
+        <div className="details">
+          <h2>Détails</h2>
+          <p><strong>Titre :</strong> {selectedBook.title}</p>
+          <p><strong>Auteur :</strong> {selectedBook.author}</p>
+          <p><strong>Disponible :</strong> {selectedBook.available ? "oui" : "non"}</p>
+          <button onClick={() => setSelectedId(null)}>Fermer</button>
+        </div>
+      )}
+
+      <BookList books={filteredBooks} onSelect={handleSelect} />
     </div>
   );
 }

@@ -3,9 +3,10 @@ import { BookItem } from "./BookItem";
 
 interface BookListProps {
   books: Book[];
+  onSelect?: (id: string) => void;
 }
 
-export function BookList({ books }: BookListProps) {
+export function BookList({ books, onSelect }: BookListProps) {
   if (books.length === 0) {
     return <p>Aucun livre à afficher.</p>;
   }
@@ -14,7 +15,7 @@ export function BookList({ books }: BookListProps) {
     <ul className="book-list">
       {books.map((book) => (
         <li key={book.id}>
-          <BookItem book={book} />
+          <BookItem book={book} onSelect={onSelect} />
         </li>
       ))}
     </ul>
